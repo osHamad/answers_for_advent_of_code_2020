@@ -1,62 +1,39 @@
-def create_dict(input, index=0, first_iter=True):
-    bag = input[0]+input[1]
-    contain = {}
-    input.remove(input[0])
-    input.remove(input[0])
-    name = ''
-    fullname = []
-    num = ''
-    for i in input:
-        if i not in 'bags,bag,bag.bags.contain':
-            if i.isalpha():
-                name += i
-
-            elif i.isdigit():
-                if first_iter:
-                    num = i
-                    first_iter = False
-                else:
-                    contain[f'contain{index}'] = [num,name]
-                    fullname.append(name)
-                    name = ''
-                    num = ''
-
-                    num = i
-
-
-                    index+=1
-
-        contain[f'contain{index}'] = [num,name]
-
-    return bag, contain
-
-
-def find_container(condition, bags, counter):
-    for i in bags:
-        for j in bags[i]:
-            if bags[i][j][1] == condition:
-                return find_container(i, bags, counter+1)
-
-
+def get_colors(dict, curr_node_key):
+    if curr_node_key not in dict:
+        return {curr_node_key}
+    else:
+        set_colors = {curr_node_key}
+        parent_list = dict[curr_node_key]
+        for parent in parent_list:
+            curr_colors = get_colors(dict, parent)
+            set_colors.update(curr_colors)
+        return set_colors
 
 def main():
     bags = {}
-    with open('input.txt','r') as input:
-        input = input.read().splitlines()
-    for i in input:
-        bag = create_dict(i.split())
-        bags[bag[0]] = bag[1]
+    with open('input.txt','r') as file:
+        file = file.read().splitlines()
 
-    print(find_container('shinygold', bags, 0))
+    for input in file:
+        input=input.split()
+        bag = input[0]+input[1]
+        [input.remove(input[0]) for l in range(2)]
+        contain = []
+        name = ''
+        for i in input:
+            if i not in 'bags,bag,bag.bags.contain':
+                if i.isalpha():
+                    name += i
+                elif i.isdigit():
+                    contain.append(name)
+                    name = ''
+        contain.append(name)
+        for parent in contain:
+            try:
+                bags[parent].append(bag)
+            except KeyError:
+                bags.update({parent:[bag]})
 
+    print(len(get_colors(bags, 'shinygold'))-1)
 
 main()
-
-
-
-'''dictionary = {'poshteal': {'contain0': ['2', 'fadedcoral'], 'contain1': ['3', 'stripedcrimson'], 'contain2': ['1', 'fadedred']},
-    'mirroredchartreuse': {'contain0': ['3', 'clearbeige'], 'contain1': ['3', 'shinysilver'], 'contain2': ['3', 'brightgreen']}}
-
-for bag in dictionary:
-    for contain in dictionary[bag]:
-        print(dictionary[bag][contain][0])'''
