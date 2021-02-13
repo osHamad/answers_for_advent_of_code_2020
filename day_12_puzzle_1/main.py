@@ -17,7 +17,7 @@ def main():
             puzzle_boat.forward(int(dir[1:]))
 
 
-    puzzle_boat.each_dir()
+    puzzle_boat.manhattan_distance()
 
 if __name__ == '__main__':
     main()

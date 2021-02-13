@@ -36,7 +36,7 @@ class Boat:
 
 
     def manhattan_distance(self):
-        print(self.north + self.east + self.south + self.west)
+        print(abs(self.north - self.south) + abs(self.east - self.west))
 
     def each_dir(self):
         print(self.north, self.east, self.south, self.west)
