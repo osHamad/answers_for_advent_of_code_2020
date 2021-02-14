@@ -15,7 +15,8 @@ def main():
 
         elif dir[0] == 'F':
             puzzle_boat.forward(int(dir[1:]))
-            
+
+    # prints answer
     puzzle_boat.manhattan_distance()
 
 if __name__ == '__main__':
