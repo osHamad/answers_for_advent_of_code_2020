@@ -29,7 +29,7 @@ class Boat:
         if side == 'R':
             self.current_dir = abs(self.current_dir + digree)
         elif side == 'L':
-            self.current_dir = abs(self.current_dir - digree)
+            self.current_dir = abs(self.current_dir + abs(digree-360))
 
         if self.current_dir >= 360:
             self.current_dir -= 360
@@ -37,6 +37,3 @@ class Boat:
 
     def manhattan_distance(self):
         print(abs(self.north - self.south) + abs(self.east - self.west))
-
-    def each_dir(self):
-        print(self.north, self.east, self.south, self.west)
